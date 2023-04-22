@@ -6,22 +6,26 @@ import { Empleado } from '../Models/employee.model';
   providedIn: 'root'
 })
 export class AuthService {
-
+  private logged: boolean = false;
   constructor(private authFirebase: AngularFireAuth) { }
 
   signIn(email: string, password: string) {
+    this.logged = true;
     return this.authFirebase.signInWithEmailAndPassword(email, password);
   }
 
   signUp(data: Empleado) {
+    this.logged = false;
     return this.authFirebase.createUserWithEmailAndPassword(data.email, data.password);
   }
 
   signOut() {
+    this.logged = false;
     return this.authFirebase.signOut();
   }
   
   isLogged() {
-    return this.authFirebase.currentUser;
+    // return this.authFirebase.currentUser;
+    return this.logged;
   }
 }

@@ -1,14 +1,30 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Firestore, addDoc, collection, doc, deleteDoc, collectionData, updateDoc } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BdDomestiAppService {
 
-  constructor(private angularFirestore: AngularFirestore) { }
+  constructor(private firestore: Firestore) { }
 
-  async saveEmployee(employee: any) {
-    return await this.angularFirestore.collection('employees').add(employee);
+  saveEmployee(employee: any) {
+    const employeeRef = collection(this.firestore, 'employees');
+    return addDoc(employeeRef, employee);
+  }
+
+  getEmployees() {
+    const employeeRef = collection(this.firestore, 'employees');
+    return collectionData(employeeRef, { idField: 'id' });
+  }
+
+  deleteEmployee(employee: any) {
+    const employeeRef = doc(this.firestore, 'employees', employee.id);
+    return deleteDoc(employeeRef);
+  }
+
+  updateEmployee(employee: any) {
+    const employeeRef = doc(this.firestore, 'employees', employee.id);
+    return updateDoc(employeeRef, employee);
   }
 }

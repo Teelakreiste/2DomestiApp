@@ -13,21 +13,5 @@ export class HomeComponent {
     private auth: AuthService) { }
 
   ngOnInit() {
-    // this.auth.isLogged().then(() => {
-    //   console.log('Usuario logueado');
-    // }).catch(() => {
-    //   console.log('No hay usuario logueado');
-    //   this.router.navigate(['sign-in']);
-    // });
   }
-
-  logout() {
-    this.auth.signOut().then(() => {
-      console.log('Usuario deslogueado exitosamente!');
-      this.router.navigate(['sign-in']);
-    }).catch(() => {
-      console.log('Error al desloguear usuario');
-    });
-  }
-
 }

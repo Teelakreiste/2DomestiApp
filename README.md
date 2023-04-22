@@ -25,3 +25,14 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+# 1. Descripción del proyecto
+
+## 1.1. Introducción
+
+DomestiApp es una aplicación web que permite a los usuarios gestionar las tareas domésticas de su hogar. La aplicación permite crear tareas, asignarlas a los usuarios y marcarlas como completadas. Además, los usuarios pueden crear grupos de tareas para organizarlas por categorías. Por último, la aplicación permite a los usuarios crear y gestionar sus propios perfiles.
+
+## 1.2. Objetivos
+
+El objetivo principal de este proyecto es desarrollar una aplicación web que permita a los usuarios gestionar las tareas domésticas de su hogar. Para ello, la aplicación debe permitir a los usuarios crear tareas, asignarlas a los usuarios y marcarlas como completadas. Además, los usuarios deben poder crear grupos de tareas para organizarlas por categorías. Por último, la aplicación debe permitir a los usuarios crear y gestionar sus propios perfiles.

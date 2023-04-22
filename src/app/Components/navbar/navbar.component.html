@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">DomestiApp</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
+        aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link">Pefiles / Empleados</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Ofertas / Empleadores</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="justify-content-md-end" id="navbarsExample09">
+        <ul class="navbar-nav" *ngIf="!isLogged">
+            <li class="nav-item">
+                <a class="nav-link" (click)="signIn()">Sign-in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="signUp()">Sign-up</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav" *ngIf="isLogged">
+            <li class="nav-item">
+                <a class="nav-link" (click)="signOut()">Sign-out</a>
+            </li>
+        </ul>
+    </div>
+
+</nav>
