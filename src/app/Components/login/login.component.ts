@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/Services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,8 +9,33 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router: Router) {}
-  ngOnInit() { }
+  user: any = {
+    email: '',
+    password: ''
+  }
+
+  error: boolean = false;
+
+  constructor(private router: Router,
+    private auth: AuthService) {}
+  ngOnInit() { 
+    // this.auth.isLogged().then(() => {
+    //   this.router.navigate(['home']);
+    // }).catch(() => {
+    //   console.log('No hay usuario logueado');
+    // });
+  }
+
+  login() {
+    this.auth.signIn(this.user.email, this.user.password).then(() => {
+      console.log('Usuario logueado exitosamente!');
+      this.router.navigate(['home']);
+    }).catch(() => {
+      console.log("User or password incorrect");
+      this.error = true;
+    });
+  }
+
   register() {
     this.router.navigate(['sign-up']);
   }

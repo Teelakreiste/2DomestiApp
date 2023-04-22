@@ -18,83 +18,132 @@
                 <div class="text-center" *ngIf="sh == 1">
                     <div class="row">
                         <div class="col-4">
-                            <img src="../../../assets/Placeholder.svg" alt="">
+                            <img id="photo" src="../../../assets/Placeholder.svg" alt="">
                         </div>
                         <div class="col-8">
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="employeed.name" class="form-control" id="floatingInput" placeholder="
+                                Username">
+                                <label for="floatingInput">Username</label>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-floating mb-3 mt-3">
+                                        <input type="text" [(ngModel)]="employeed.email" class="form-control" id="email" placeholder="Enter email"
+                                            name="email">
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mt-3 mb-3">
+                                        <input type="password" [(ngModel)]="employeed.password" class="form-control" id="pwd" placeholder="Enter password"
+                                            name="pswd">
+                                        <label for="pwd">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" [(ngModel)]="employeed.phone" class="form-control" id="floatingInput" placeholder="
+                                        Phone number">
+                                <label for="floatingInput">Phone number</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
                             <div class="form-floating mb-3 mt-3">
-                                <input type="text" class="form-control" id="email" placeholder="Enter email"
-                                    name="email">
-                                <label for="email">Email</label>
+                                <input type="text" [(ngModel)]="employeed.cc" class="form-control" id="cc" placeholder="Enter CC" name="cc">
+                                <label for="cc">CC</label>
                             </div>
-
+                        </div>
+                        <div class="col">
                             <div class="form-floating mt-3 mb-3">
-                                <input type="text" class="form-control" id="pwd" placeholder="Enter password"
+                                <input type="date" [(ngModel)]="employeed.expDate" class="form-control" id="pwd" placeholder="Expedition Date"
                                     name="pswd">
-                                <label for="pwd">Password</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="
-                                        Nombre de usuario">
-                                <label for="floatingInput">Nombre de usuario</label>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="floatingInput" placeholder="
-                                        Nombre de la empresa">
-                                <label for="floatingInput">Nombre de la empresa</label>
+                                <label for="pwd">Expedition Date</label>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here"
+                        <textarea class="form-control" [(ngModel)]="employeed.experience" placeholder="Leave a comment here"
                             id="floatingTextarea"></textarea>
-                        <label for="floatingTextarea">Comments</label>
+                        <label for="floatingTextarea">Work experience</label>
                     </div>
                     <br>
                     <div class="form-floating">
                         <textarea class="form-control" placeholder="Leave a comment here"
                             id="floatingTextarea"></textarea>
-                        <label for="floatingTextarea">Comments</label>
+                        <label for="floatingTextarea">Employment references</label>
+                    </div>
+                    <br>
+                    <div class="form-floating">
+                        <textarea class="form-control" [(ngModel)]="employeed.others" placeholder="Leave a comment here"
+                            id="floatingTextarea"></textarea>
+                        <label for="floatingTextarea">Others</label>
                     </div>
                 </div>
                 <div class="text-center" *ngIf="sh == 0">
                     <img id="photo" src="../../../assets/Placeholder.svg" alt="">
                     <div class="container form-inputs">
-                        <div class="form-floating mb-3 mt-3">
-                            <input type="text" class="form-control" id="email" placeholder="Enter email"
-                                name="email">
-                            <label for="email">Email</label>
+                        <br>
+                        <div class="form-floating mb-3">
+                            <input type="text" [(ngModel)]="employeed.name" class="form-control" id="floatingInput" placeholder="
+                                    Username">
+                            <label for="floatingInput">Username</label>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" [(ngModel)]="employeed.email" class="form-control" id="email" placeholder="Enter email"
+                                        name="email">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
 
-                        <div class="form-floating mt-3 mb-3">
-                            <input type="text" class="form-control" id="pwd" placeholder="Enter password"
-                                name="pswd">
-                            <label for="pwd">Password</label>
+                            <div class="col">
+                                <div class="form-floating mt-3 mb-3">
+                                    <input type="password" [(ngModel)]="employeed.password" class="form-control" id="pwd" placeholder="Enter password"
+                                        name="pswd">
+                                    <label for="pwd">Password</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="
-                                    Nombre de usuario">
-                            <label for="floatingInput">Nombre de usuario</label>
+                            <input type="text" [(ngModel)]="employeed.phone" class="form-control" id="floatingInput" placeholder="
+                                    Phone number">
+                            <label for="floatingInput">Phone number</label>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating mb-3 mt-3">
+                                    <input type="text" [(ngModel)]="employeed.cc" class="form-control" id="cc" placeholder="Enter CC" name="cc">
+                                    <label for="cc">CC</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mt-3 mb-3">
+                                    <input type="date" [(ngModel)]="employeed.expDate" class="form-control" id="pwd" placeholder="Expedition Date"
+                                        name="pswd">
+                                    <label for="pwd">Expedition Date</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="
-                                    Nombre de la empresa">
-                            <label for="floatingInput">Nombre de la empresa</label>
+                            <input type="text" [(ngModel)]="employeed.address" class="form-control" id="floatingInput" placeholder="
+                                    Addrees">
+                            <label for="floatingInput">Address</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="
-                                    Nombre de usuario">
-                            <label for="floatingInput">Nombre de usuario</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="
-                                    Nombre de la empresa">
-                            <label for="floatingInput">Nombre de la empresa</label>
+                        <br>
+                        <div class="form-floating">
+                            <textarea [(ngModel)]="employeed.others" class="form-control" placeholder="Leave a comment here"
+                                id="floatingTextarea"></textarea>
+                            <label for="floatingTextarea">Job prospects</label>
                         </div>
                     </div>
                 </div>
                 <br>
-                <input type="submit" class="btn btn-success" value="Sign Up">
+                <input type="submit" class="btn btn-success" (click)="register()" value="Sign Up">
             </div>
             <hr id="separator">
             <div class="div-register">

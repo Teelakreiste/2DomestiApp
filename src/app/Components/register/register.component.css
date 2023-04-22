@@ -34,9 +34,15 @@ h2 {
     border-bottom: 1px solid #DEE1EC;
 }
 
-.form-inputs {
-    /* padding: 0 200px; */
+#photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 5px;
 }
+
+/* .form-inputs {
+    padding: 0 200px;
+} */
 
 .options input[type="radio"] {
     display: none;
