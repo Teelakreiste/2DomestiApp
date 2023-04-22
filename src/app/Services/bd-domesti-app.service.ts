@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, doc, deleteDoc, collectionData, updateDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Empleado } from '../Models/employee.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +15,9 @@ export class BdDomestiAppService {
     return addDoc(employeeRef, employee);
   }
 
-  getEmployees() {
+  getEmployees(): Observable<Empleado[]> {
     const employeeRef = collection(this.firestore, 'employees');
-    return collectionData(employeeRef, { idField: 'id' });
+    return collectionData(employeeRef, { idField: 'id' }) as Observable<Empleado[]>;
   }
 
   deleteEmployee(employee: any) {

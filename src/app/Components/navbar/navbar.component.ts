@@ -29,4 +29,12 @@ export class NavbarComponent {
   signUp() {
     this.router.navigate(['sign-up']);
   }
+
+  profiles() {
+    this.router.navigate(['profiles']);
+  }
+
+  offers() {
+    this.router.navigate(['offerts']);
+  }
 }
