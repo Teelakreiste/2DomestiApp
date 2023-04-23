@@ -10,7 +10,7 @@ import { BdDomestiAppService } from 'src/app/Services/bd-domesti-app.service';
   styleUrls: ['./offerts.component.css']
 })
 export class OffertsComponent {
-  profiles: Empleado[] = [];
+  offerts: Empleado[] = [];
 
 
   constructor(private router: Router,
@@ -24,7 +24,7 @@ export class OffertsComponent {
   getEmployee() {
     this.bdDomestiAppService.getEmployees().subscribe(data => {
       // Get only the employees with the rol of "Empleador"
-      this.profiles = data.filter((employee) => {
+      this.offerts = data.filter((employee) => {
         return employee.rol === "Empleador";
       });      
     })

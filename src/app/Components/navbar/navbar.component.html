@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a [class]=" ((getActive()==0)?'nav-link active':'nav-link')" (click)="profiles()">Pefiles / Empleados</a>
+                <a class="nav-link" routerLink="/profiles">Profiles / Employees</a>
             </li>
             <li class="nav-item">
-                <a [class]=" ((getActive()==1)?'nav-link active':'nav-link')" (click)="offers()">Ofertas / Empleadores</a>
+                <a class="nav-link" routerLink="/offers">Offers / Employers</a>
             </li>
         </ul>
     </div>
@@ -19,15 +19,15 @@
     <div class="justify-content-md-end" id="navbarsExample09">
         <ul class="navbar-nav" *ngIf="!isLogged">
             <li class="nav-item">
-                <a [class]=" ((getActive()==2)?'nav-link active':'nav-link')" (click)="signIn()">Sign-in</a>
+                <a class="nav-link" routerLink="/sign-in">Sign-in</a>
             </li>
             <li class="nav-item">
-                <a [class]=" ((getActive()==3)?'nav-link active':'nav-link')" (click)="signUp()">Sign-up</a>
+                <a class="nav-link" routerLink="/sign-up">Sign-up</a>
             </li>
         </ul>
         <ul class="navbar-nav" *ngIf="isLogged">
             <li class="nav-item">
-                <a class="nav-link" (click)="signOut()">Sign-out</a>
+                <a class="nav-link" routerLink="/sign-out">Sign-out</a>
             </li>
         </ul>
     </div>

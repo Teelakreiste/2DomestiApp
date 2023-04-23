@@ -5,11 +5,11 @@
             <hr id="separator">
             <div class="row options">
                 <div class="col">
-                    <input id="empleado" [value]="1" [(ngModel)]="sh" name="sh" type="radio" [checked]="isChecked">
+                    <input id="empleado" [value]="1" [(ngModel)]="sh" name="sh" type="radio" [checked]="isChecked" (click)="resetForm()">
                     <label for="empleado">Empleado</label>
                 </div>
                 <div class="col">
-                    <input id="empleador" [value]="0" [(ngModel)]="sh" name="sh" type="radio" [checked]="!isChecked">
+                    <input id="empleador" [value]="0" [(ngModel)]="sh" name="sh" type="radio" [checked]="!isChecked" (click)="resetForm()">
                     <label for="empleador">Empleador(a)</label>
                 </div>
             </div>
