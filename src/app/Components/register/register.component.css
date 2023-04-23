@@ -90,3 +90,23 @@ h2 {
     color: #EAC100;
     text-decoration: none;
 }
+
+.input-image {
+    display: none;
+}
+
+.alert-danger {
+	color: #721c24;
+	background-color: #f8d7da;
+	border-color: #f5c6cb;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 10px 0;
+}
+
+.container-error-message {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}

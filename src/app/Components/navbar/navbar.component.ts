@@ -11,10 +11,19 @@ import { AuthService } from 'src/app/Services/auth.service';
 })
 export class NavbarComponent {
   isLogged: boolean = false;
+  private active = 0;
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLogged = this.auth.isLogged();
+  }
+
+  getActive() {
+    return this.active;
+  }
+
+  setActive(active: number) {
+    this.active = active;
   }
 
   signOut() {
@@ -24,17 +33,21 @@ export class NavbarComponent {
 
   signIn() {
     this.router.navigate(['sign-in']);
+    this.setActive(2);
   }
 
   signUp() {
     this.router.navigate(['sign-up']);
+    this.setActive(3);
   }
 
   profiles() {
     this.router.navigate(['profiles']);
+    this.setActive(0);
   }
 
   offers() {
     this.router.navigate(['offerts']);
+    this.setActive(1);
   }
 }

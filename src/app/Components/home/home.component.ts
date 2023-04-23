@@ -13,5 +13,6 @@ export class HomeComponent {
     private auth: AuthService) { }
 
   ngOnInit() {
+    this.router.navigate(['profiles']);
   }
 }

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand">DomestiApp</a>
+    <a class="navbar-brand" href="/">DomestiApp</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
         aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" (click)="profiles()">Pefiles / Empleados</a>
+                <a [class]=" ((getActive()==0)?'nav-link active':'nav-link')" (click)="profiles()">Pefiles / Empleados</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="offers()">Ofertas / Empleadores</a>
+                <a [class]=" ((getActive()==1)?'nav-link active':'nav-link')" (click)="offers()">Ofertas / Empleadores</a>
             </li>
         </ul>
     </div>
@@ -19,10 +19,10 @@
     <div class="justify-content-md-end" id="navbarsExample09">
         <ul class="navbar-nav" *ngIf="!isLogged">
             <li class="nav-item">
-                <a class="nav-link" (click)="signIn()">Sign-in</a>
+                <a [class]=" ((getActive()==2)?'nav-link active':'nav-link')" (click)="signIn()">Sign-in</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" (click)="signUp()">Sign-up</a>
+                <a [class]=" ((getActive()==3)?'nav-link active':'nav-link')" (click)="signUp()">Sign-up</a>
             </li>
         </ul>
         <ul class="navbar-nav" *ngIf="isLogged">

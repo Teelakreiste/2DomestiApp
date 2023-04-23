@@ -18,34 +18,71 @@
                 <div class="text-center" *ngIf="sh == 1">
                     <div class="row">
                         <div class="col-4">
-                            <img id="photo" src="../../../assets/Placeholder.svg" alt="">
+                            <img id="photo" [src]="imgSrc" (click)="fileUploader.click()" alt="">
+                            <div class="alert-danger" *ngIf="isEmpty(employeed.photo!)">
+                                <div class="container-error-message" *ngIf="isEmpty(employeed.photo!)">
+                                    Photo is required
+                                </div>
+                            </div>
                         </div>
                         <div class="col-8">
                             <div class="form-floating mb-3">
                                 <input type="text" [(ngModel)]="employeed.name" class="form-control" id="floatingInput" placeholder="
                                 Username">
-                                <label for="floatingInput">Username</label>
+                                <label for="floatingInput">*Username</label>
+                                <div class="alert-danger" *ngIf="!validates(0) || isEmpty(employeed.name)">
+                                    <div class="container-error-message" *ngIf="isEmpty(employeed.name)">
+                                        Username is required
+                                    </div>
+                                    <div class="container-error-message" *ngIf="!validates(0)">
+                                        Username contains only letters, spaces, commas, apostrophes and hyphens.
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-floating mb-3 mt-3">
                                         <input type="text" [(ngModel)]="employeed.email" class="form-control" id="email" placeholder="Enter email"
                                             name="email">
-                                        <label for="email">Email</label>
+                                        <label for="email">*Email</label>
+                                    </div>
+                                    <div class="alert-danger" *ngIf="!validates(1) || isEmpty(employeed.email)">
+                                        <div class="container-error-message" *ngIf="isEmpty(employeed.email)">
+                                            Email is required
+                                        </div>
+                                        <div class="container-error-message" *ngIf="!validates(1) && !isEmpty(employeed.email)">
+                                            Email is not valid
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-floating mt-3 mb-3">
                                         <input type="password" [(ngModel)]="employeed.password" class="form-control" id="pwd" placeholder="Enter password"
                                             name="pswd">
-                                        <label for="pwd">Password</label>
+                                        <label for="pwd">*Password</label>
+                                        <div class="alert-danger" *ngIf="!validates(2) || isEmpty(employeed.password)">
+                                            <div class="container-error-message" *ngIf="isEmpty(employeed.password)">
+                                                Password is required
+                                            </div>
+                                            <div class="container-error-message" *ngIf="!validates(2) && !isEmpty(employeed.password)">
+                                                Password must contains at least 8 characters, at least one uppercase letter, one lowercase letter and one number
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="text" [(ngModel)]="employeed.phone" class="form-control" id="floatingInput" placeholder="
                                         Phone number">
-                                <label for="floatingInput">Phone number</label>
+                                <label for="floatingInput">*Phone number</label>
+                                <div class="alert-danger" *ngIf="!validates(3) || isEmpty(employeed.phone)">
+                                    <div class="container-error-message" *ngIf="isEmpty(employeed.phone)">
+                                        Phone number is required
+                                    </div>
+                                    <div class="container-error-message" *ngIf="!validates(3) && !isEmpty(employeed.phone)">
+                                        Phone number must contains only numbers
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -53,14 +90,30 @@
                         <div class="col">
                             <div class="form-floating mb-3 mt-3">
                                 <input type="text" [(ngModel)]="employeed.cc" class="form-control" id="cc" placeholder="Enter CC" name="cc">
-                                <label for="cc">CC</label>
+                                <label for="cc">*CC</label>
+                                <div class="alert-danger" *ngIf="!validates(4) || isEmpty(employeed.cc)">
+                                    <div class="container-error-message" *ngIf="isEmpty(employeed.cc)">
+                                        CC is required
+                                    </div>
+                                    <div class="container-error-message" *ngIf="!validates(4) && !isEmpty(employeed.cc)">
+                                        CC must contains only numbers
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-floating mt-3 mb-3">
                                 <input type="date" [(ngModel)]="employeed.expDate" class="form-control" id="pwd" placeholder="Expedition Date"
                                     name="pswd">
-                                <label for="pwd">Expedition Date</label>
+                                <label for="pwd">*Expedition Date</label>
+                                <div class="alert-danger" *ngIf="isEmpty(employeed.expDate)">
+                                    <div class="container-error-message" *ngIf="isEmpty(employeed.expDate)">
+                                        Expedition Date is required
+                                    </div>
+                                    <!-- <div class="container-error-message" *ngIf="!validates(5) && !isEmpty(employeed.expDate)">
+                                        Expedition Date must be a valid date
+                                    </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,7 +121,15 @@
                     <div class="form-floating">
                         <textarea class="form-control" [(ngModel)]="employeed.experience" placeholder="Leave a comment here"
                             id="floatingTextarea"></textarea>
-                        <label for="floatingTextarea">Work experience</label>
+                        <label for="floatingTextarea">*Work experience</label>
+                        <div class="alert-danger" *ngIf="!validates(5) || isEmpty(employeed.experience!)">
+                            <div class="container-error-message" *ngIf="isEmpty(employeed.experience!)">
+                                Work experience is required
+                            </div>
+                            <div class="container-error-message" *ngIf="!validates(5) && !isEmpty(employeed.experience!)">
+                                Work experience must contains only letters, spaces, commas, apostrophes and hyphens.
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <div class="form-floating">
@@ -84,20 +145,41 @@
                     </div>
                 </div>
                 <div class="text-center" *ngIf="sh == 0">
-                    <img id="photo" src="../../../assets/Placeholder.svg" alt="">
+                    <img id="photo" [src]="imgSrc" (click)="fileUploader.click()" alt="">
+                    <div class="alert-danger" *ngIf="isEmpty(employeed.photo!)">
+                        <div class="container-error-message" *ngIf="isEmpty(employeed.photo!)">
+                            Photo is required
+                        </div>
+                    </div>
                     <div class="container form-inputs">
                         <br>
                         <div class="form-floating mb-3">
                             <input type="text" [(ngModel)]="employeed.name" class="form-control" id="floatingInput" placeholder="
                                     Username">
-                            <label for="floatingInput">Username</label>
+                            <label for="floatingInput">*Username</label>
+                            <div class="alert-danger" *ngIf="!validates(0) || isEmpty(employeed.name)">
+                                <div class="container-error-message" *ngIf="isEmpty(employeed.name)">
+                                    Username is required
+                                </div>
+                                <div class="container-error-message" *ngIf="!validates(0) && !isEmpty(employeed.name)">
+                                    Username must contains only letters, spaces, commas, apostrophes and hyphens.
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3 mt-3">
                                     <input type="text" [(ngModel)]="employeed.email" class="form-control" id="email" placeholder="Enter email"
                                         name="email">
-                                    <label for="email">Email</label>
+                                    <label for="email">*Email</label>
+                                    <div class="alert-danger" *ngIf="!validates(1) || isEmpty(employeed.email)">
+                                        <div class="container-error-message" *ngIf="isEmpty(employeed.email)">
+                                            Email is required
+                                        </div>
+                                        <div class="container-error-message" *ngIf="!validates(1) && !isEmpty(employeed.email)">
+                                            Email must be a valid email
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -105,34 +187,68 @@
                                 <div class="form-floating mt-3 mb-3">
                                     <input type="password" [(ngModel)]="employeed.password" class="form-control" id="pwd" placeholder="Enter password"
                                         name="pswd">
-                                    <label for="pwd">Password</label>
+                                    <label for="pwd">*Password</label>
+                                    <div class="alert-danger" *ngIf="!validates(2) || isEmpty(employeed.password)">
+                                        <div class="container-error-message" *ngIf="isEmpty(employeed.password)">
+                                            Password is required
+                                        </div>
+                                        <div class="container-error-message" *ngIf="!validates(2) && !isEmpty(employeed.password)">
+                                            Password must contains at least 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" [(ngModel)]="employeed.phone" class="form-control" id="floatingInput" placeholder="
                                     Phone number">
-                            <label for="floatingInput">Phone number</label>
+                            <label for="floatingInput">*Phone number</label>
+                            <div class="alert-danger" *ngIf="!validates(3) || isEmpty(employeed.phone)">
+                                <div class="container-error-message" *ngIf="isEmpty(employeed.phone)">
+                                    Phone number is required
+                                </div>
+                                <div class="container-error-message" *ngIf="!validates(3) && !isEmpty(employeed.phone)">
+                                    Phone number must contains only 10 numbers
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-floating mb-3 mt-3">
                                     <input type="text" [(ngModel)]="employeed.cc" class="form-control" id="cc" placeholder="Enter CC" name="cc">
-                                    <label for="cc">CC</label>
+                                    <label for="cc">*CC</label>
+                                    <div class="alert-danger" *ngIf="!validates(4) || isEmpty(employeed.cc)">
+                                        <div class="container-error-message" *ngIf="isEmpty(employeed.cc)">
+                                            CC is required
+                                        </div>
+                                        <div class="container-error-message" *ngIf="!validates(4) && !isEmpty(employeed.cc)">
+                                            CC must contains only 10 numbers
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-floating mt-3 mb-3">
                                     <input type="date" [(ngModel)]="employeed.expDate" class="form-control" id="pwd" placeholder="Expedition Date"
                                         name="pswd">
-                                    <label for="pwd">Expedition Date</label>
+                                    <label for="pwd">*Expedition Date</label>
+                                    <div class="alert-danger" *ngIf="isEmpty(employeed.expDate)">
+                                        <div class="container-error-message" *ngIf="isEmpty(employeed.expDate)">
+                                            Expedition Date is required
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" [(ngModel)]="employeed.address" class="form-control" id="floatingInput" placeholder="
                                     Addrees">
-                            <label for="floatingInput">Address</label>
+                            <label for="floatingInput">*Address</label>
+                            <div class="alert-danger" *ngIf="isEmpty(employeed.address)">
+                                <div class="container-error-message" *ngIf="isEmpty(employeed.address)">
+                                    Address is required
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="form-floating">
@@ -142,8 +258,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-floating">
+                    <label class="form-label" for="floatingInput"></label>
+                    <input type="file" accept="image/*" class="form-control input-image" id="floatingInput" #fileUploader [(ngModel)]="employeed.photo" (change)="showPreview($event)">
+                </div>
+                <small class="text-muted">Fields marked with (*) are required.</small>
                 <br>
-                <input type="submit" class="btn btn-success" (click)="saveEmployee()" value="Sign Up">
+                <input type="submit" class="btn btn-success" (click)="submit()" value="Sign Up">
             </div>
             <hr id="separator">
             <div class="div-register">
