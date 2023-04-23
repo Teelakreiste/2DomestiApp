@@ -34,7 +34,7 @@
                                     <div class="container-error-message" *ngIf="isEmpty(employeed.name)">
                                         Username is required
                                     </div>
-                                    <div class="container-error-message" *ngIf="!validates(0)">
+                                    <div class="container-error-message" *ngIf="!validates(0) &&  !isEmpty(employeed.name)">
                                         Username contains only letters, spaces, commas, apostrophes and hyphens.
                                     </div>
                                 </div>
