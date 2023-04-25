@@ -19,17 +19,16 @@ export class LoginComponent {
   constructor(private router: Router,
     private auth: AuthService) {}
   ngOnInit() { 
-    // this.auth.isLogged().then(() => {
+    // if (this.auth.isLogged()) {
     //   this.router.navigate(['home']);
-    // }).catch(() => {
-    //   console.log('No hay usuario logueado');
-    // });
+    // }
   }
 
   login() {
     this.auth.signIn(this.user.email, this.user.password).then(() => {
       console.log('Usuario logueado exitosamente!');
       this.router.navigate(['home']);
+      window.location.reload();
     }).catch(() => {
       console.log("User or password incorrect");
       this.error = true;

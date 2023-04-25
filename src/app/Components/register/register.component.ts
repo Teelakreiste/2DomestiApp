@@ -43,11 +43,9 @@ export class RegisterComponent {
     private validations: ValidationsService) { }
 
   ngOnInit() {
-    // this.auth.isLogged().then(() => {
+    // if (this.auth.isLogged()) {
     //   this.router.navigate(['home']);
-    // }).catch(() => {
-    //   console.log('No hay usuario logueado');
-    // });
+    // }
   }
 
   login() {
