@@ -2,19 +2,19 @@
 <div class="container">
     <br>
     <section class="articles">
-        <article *ngFor="let offert of offerts">
+        <article *ngFor="let offer of offers">
             <div class="article-wrapper">
                 <figure>
-                    <img [src]="offert.photo" alt="" />
+                    <img [src]="offer.photo" alt="" />
                 </figure>
                 <div class="article-body">
-                    <h2>{{offert.name}}</h2>
+                    <h2>{{offer.name}}</h2>
                     <p>
-                        {{offert.experience}}
+                        {{offer.experience}}
                     </p>
-                    <a href="#" class="read-more">
+                    <a (click)="viewMoreInfo(offer)" class="read-more">
                         Read more <span class="sr-only">
-                            about {{offert.name}}
+                            about {{offer.name}}
                         </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"

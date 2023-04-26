@@ -17,12 +17,10 @@ export class AuthService {
   }
 
   signOut() {
-    return this.authFirebase.signOut().then(() => {
-      console.log('Usuario deslogueado exitosamente!');
-    });
+    return this.authFirebase.signOut();
   }
-  
-  isLogged() {
-    return this.authFirebase.currentUser;
+
+  isAuth() {
+    return this.authFirebase.authState;
   }
 }

@@ -9,28 +9,23 @@ import { BdDomestiAppService } from 'src/app/Services/bd-domesti-app.service';
 })
 export class NavbarComponent {
   isLogged: boolean = false;
-  user: string = '';
-  constructor(private auth: AuthService,
-    private bdDomestiAppService: BdDomestiAppService
-    ) { }
+  constructor(private auth: AuthService
+  ) { }
 
   ngOnInit(): void {
-    this.auth.isLogged().then(() => {
-      this.isLogged = true;
-      
-    }).catch(() => {
-      this.isLogged = false;
-    });
+    this.auth.isAuth().subscribe(auth => {
+      if (auth) {
+        this.isLogged = true;
+      } else {
+        this.isLogged = false;
+      }
+    })
   }
 
   signOut() {
     this.auth.signOut().then(() => {
       this.isLogged = false;
     });
-  }
-
-  getName() {
-    this.bdDomestiAppService.getEmployees
   }
 
 }
