@@ -18,10 +18,7 @@ export class LoginComponent {
 
   constructor(private router: Router,
     private auth: AuthService) {}
-  ngOnInit() { 
-    // if (this.auth.isLogged()) {
-    //   this.router.navigate(['home']);
-    // }
+  ngOnInit() {
   }
 
   login() {

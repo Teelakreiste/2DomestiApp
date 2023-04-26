@@ -52,7 +52,7 @@ export class OffertsComponent {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: 'Offer information',
       html: `
@@ -78,12 +78,19 @@ export class OffertsComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          'Your request has been sent',
-          'We will contact you soon',
-          'success'
-        )
-
+        if (this.auth.isLogged()) {
+          swalWithBootstrapButtons.fire(
+            'Your request has been sent',
+            'We will contact you soon',
+            'success'
+          )
+        } else {
+          swalWithBootstrapButtons.fire(
+            'You must be logged in',
+            'Please log in to apply for a job',
+            'error'
+          )
+        }
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {

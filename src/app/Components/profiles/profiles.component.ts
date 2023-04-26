@@ -55,7 +55,7 @@ export class ProfilesComponent {
       },
       buttonsStyling: false
     })
-    
+
     swalWithBootstrapButtons.fire({
       title: 'Profile information',
       html: `
@@ -82,11 +82,19 @@ export class ProfilesComponent {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          'Request sent',
-          'Your request has been sent, we will contact you soon.',
-          'success'
-        )
+        if (this.auth.isLogged()) {
+          swalWithBootstrapButtons.fire(
+            'Request sent',
+            'Your request has been sent, we will contact you soon.',
+            'success'
+          )
+        } else {
+          swalWithBootstrapButtons.fire(
+            'You need to login',
+            'You need to login to request a service.',
+            'warning'
+          )
+        }
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {
