@@ -1,39 +1,40 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">DomestiApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-info p-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">DomestiApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-    <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
-        <div></div>
-        <div>
-            <ul class="navbar-nav">
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/profiles">Profiles / Employees</a>
+                    <a class="nav-link mx-2" routerLink="/profiles">Profiles / Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="/offers">Offers / Employers</a>
+                    <a class="nav-link mx-2" routerLink="/offers">Offers / Employers</a>
                 </li>
             </ul>
-        </div>
-        
-        <div>
-            <ul class="navbar-nav" *ngIf="!isLogged">
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/sign-in">Sign-in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="/sign-up">Sign-up</a>
+            <ul class="navbar-nav ms-auto" *ngIf="isLogged">
+                <li class="nav-item dropdown">
+                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user fa-bounce fa-xs"></i> {{name}}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" (click)="signOut()">Sign-out</a></li>
+                    </ul>
                 </li>
             </ul>
-            <ul class="navbar-nav" *ngIf="isLogged">
+            <ul class="navbar-nav ms-auto" *ngIf="!isLogged">
                 <li class="nav-item">
-                    <a class="nav-link" (click)="signOut()">Sign-out</a>
+                    <a class="nav-link mx-2" routerLink="/sign-in">Sign-in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" routerLink="/sign-up">Sign-up</a>
                 </li>
             </ul>
         </div>
     </div>
-
 </nav>
-

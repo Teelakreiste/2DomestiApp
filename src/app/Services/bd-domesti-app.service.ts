@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, doc, deleteDoc, collectionData, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, doc, deleteDoc, collectionData, updateDoc, where, query } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Empleado } from '../Models/employee.model';
 
@@ -28,5 +28,11 @@ export class BdDomestiAppService {
   updateEmployee(employee: any) {
     const employeeRef = doc(this.firestore, 'employees', employee.id);
     return updateDoc(employeeRef, employee);
+  }
+
+  searchUser(email: string): Observable<Empleado[]> {
+    const QWhere = where('email', '==', email);
+    const employeeRef = query(collection(this.firestore, 'employees'), QWhere);
+    return collectionData(employeeRef, { idField: 'id' }) as Observable<Empleado[]>;
   }
 }
