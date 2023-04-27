@@ -19,6 +19,12 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { ProfilesComponent } from './Components/profiles/profiles.component';
 import { OffertsComponent } from './Components/offerts/offerts.component';
 import { FooterComponent } from './Components/footer/footer.component';
+import { AboutUsComponent } from './Components/about-us/about-us.component';
+import { ContactUsComponent } from './Components/contact-us/contact-us.component';
+import { ContributeComponent } from './Components/contribute/contribute.component';
+import { PrivacyPolicyComponent } from './Components/privacy-policy/privacy-policy.component';
+import { SitemapComponent } from './Components/sitemap/sitemap.component';
+import { PqrsComponent } from './Components/pqrs/pqrs.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,13 @@ import { FooterComponent } from './Components/footer/footer.component';
     NavbarComponent,
     ProfilesComponent,
     OffertsComponent,
-    FooterComponent
+    FooterComponent,
+    AboutUsComponent,
+    ContactUsComponent,
+    ContributeComponent,
+    PrivacyPolicyComponent,
+    SitemapComponent,
+    PqrsComponent
   ],
   imports: [
     BrowserModule,
