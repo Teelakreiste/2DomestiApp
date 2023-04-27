@@ -6,6 +6,9 @@ import { AuthService } from 'src/app/Services/auth.service';
 import { BdDomestiAppService } from 'src/app/Services/bd-domesti-app.service';
 import { ImageService } from 'src/app/Services/image.service';
 import { ValidationsService } from 'src/app/Services/validations.service';
+import { ActivatedRoute } from '@angular/router';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -17,9 +20,13 @@ export class RegisterComponent {
   isChecked = true;
   sh = 1;
   index = false;
+  type = false;
   imgSrc = "../../../assets/Placeholder.svg"
   private selectedImage: any = null;
 
+  isEdit = false;
+  title = 'Register';
+  btn = 'Sign Up';
 
   employeed: Empleado = {
     name: '',
@@ -40,12 +47,34 @@ export class RegisterComponent {
     private auth: AuthService,
     private imageService: ImageService,
     private bdDomestiAppService: BdDomestiAppService,
-    private validations: ValidationsService) { }
+    private validations: ValidationsService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    // if (this.auth.isLogged()) {
-    //   this.router.navigate(['home']);
-    // }
+    if (this.getId() != null) {
+      this.isEdit = true;
+    }
+    this.changeData();
+  }
+
+  changeData() {
+    if (this.isEdit) {
+      this.title = 'Setting Profile';
+      this.btn = 'Save';
+      this.type = true;
+      this.auth.searchUser().subscribe((data) => {
+        this.employeed = data[0];
+        this.imgSrc = this.employeed.photo!;
+        this.selectedImage = this.employeed.photo;
+        this.isChecked = (this.employeed.rol == 'Empleado') ? true : false;
+        this.sh = (this.employeed.rol == 'Empleado') ? 1 : 2;
+      });
+    }
+  }
+
+  getId() {
+    return this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   login() {
@@ -55,48 +84,86 @@ export class RegisterComponent {
   submit() {
     this.employeed.rol = ((this.sh == 1) ? 'Empleado' : 'Empleador');
     if (this.validations.validateAll(this.employeed)) {
-      this.saveImage();
+      if (this.type) {
+        if (this.isEdit && this.imgSrc != this.employeed.photo) {
+          this.saveImage();
+        } else {
+          this.saveEmployee();
+        }
+      } else {
+        this.saveImage();
+      }
     } else {
       window.alert('Fill all the fields');
     }
   }
 
   saveImage() {
-    var filePath = `${((this.sh == 1) ? 'Empleados' : 'Empleadores')}/${this.employeed.name+this.employeed.cc}/${this.selectedImage}-${new Date().getTime()}`;
-      const fileRef = this.imageService.getRef(filePath);
+    var filePath = `${((this.sh == 1) ? 'Empleados' : 'Empleadores')}/${this.employeed.name + this.employeed.cc}/${this.selectedImage}-${new Date().getTime()}`;
+    const fileRef = this.imageService.getRef(filePath);
 
-      this.imageService.uploadImage(filePath, this.selectedImage).snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            this.index = true;
-            this.employeed.photo = url;
-            this.saveEmployee();
-          });
-        })
-      ).subscribe();
+    this.imageService.uploadImage(filePath, this.selectedImage).snapshotChanges().pipe(
+      finalize(() => {
+        fileRef.getDownloadURL().subscribe((url) => {
+          this.index = true;
+          this.employeed.photo = url;
+          this.saveEmployee();
+        });
+      })
+    ).subscribe();
   }
 
   register() {
-    this.auth.signUp(this.employeed).then(() => {
-      console.log('Usuario creado exitosamente!');
-      this.router.navigate(['sign-in']);
-    }).catch(error => {
-      console.log(error);
+    this.auth.signUp(this.employeed).then(async () => {
+      const response = await this.bdDomestiAppService.saveEmployee(this.employeed);
+      console.log(response);
+      if (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro exitoso',
+          text: 'Bienvenido a DomestiApp',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.auth.signOut();
+        this.router.navigate(['/sign-in']);
+        window.location.reload();
+      }
+    }).catch(() => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El usuario ya existe',
+        showConfirmButton: false,
+        timer: 1500
+      })
     });
   }
 
   async saveEmployee() {
-    const response = await this.bdDomestiAppService.saveEmployee(this.employeed);
-    console.log(response);
-    if (response) {
-      window.alert('Empleado guardado exitosamente!');
-      this.register();
-      this.router.navigate(['sign-in']);
+    if (this.isEdit) {
+      this.auth.changePassword(this.employeed.password);
+      this.bdDomestiAppService.updateEmployee(this.employeed).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Actualización exitosa',
+          text: 'Se ha actualizado tu perfil',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }).catch(() => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se ha podido actualizar tu perfil',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      });
+
     } else {
-      this.index = false;
-      window.alert('Error al guardar el empleado!');
+      this.register();
     }
-    
   }
 
   showPreview(event: any) {
@@ -136,8 +203,8 @@ export class RegisterComponent {
 
   validates(index: number) {
     switch (index) {
-      case 0: 
-        return this.validations.validateName(this.employeed.name); 
+      case 0:
+        return this.validations.validateName(this.employeed.name);
       case 1:
         return this.validations.validateEmail(this.employeed.email);
       case 2:

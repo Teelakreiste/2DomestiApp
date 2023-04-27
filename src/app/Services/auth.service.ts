@@ -47,4 +47,8 @@ export class AuthService {
     let email = this.getUser().email;
     return this.bdDomestiAppService.searchUser(email);
   }
+
+  changePassword(password: string) {
+    return this.authFirebase.currentUser.then(u => u?.updatePassword(password));
+  }
 }
