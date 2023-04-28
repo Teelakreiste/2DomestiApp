@@ -68,7 +68,7 @@ export class RegisterComponent {
         this.imgSrc = this.employeed.photo!;
         this.selectedImage = this.employeed.photo;
         this.isChecked = (this.employeed.rol == 'Empleado') ? true : false;
-        this.sh = (this.employeed.rol == 'Empleado') ? 1 : 2;
+        this.sh = (this.employeed.rol == 'Empleado') ? 1 : 0;
       });
     }
   }
@@ -82,6 +82,7 @@ export class RegisterComponent {
   }
 
   submit() {
+    this.employeed.email = this.employeed.email.toLowerCase();
     this.employeed.rol = ((this.sh == 1) ? 'Empleado' : 'Empleador');
     if (this.validations.validateAll(this.employeed)) {
       if (this.type) {
