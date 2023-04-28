@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { Empleado } from 'src/app/Models/employee.model';
 import { BdDomestiAppService } from 'src/app/Services/bd-domesti-app.service';
-
+import { Requests } from 'src/app/Models/requests.model';
+import { DbService } from 'src/app/Services/db.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,13 +14,17 @@ import Swal from 'sweetalert2';
 })
 export class OffertsComponent {
   offers: Empleado[] = [];
-
+  private id: string = '';
+  private rol: string = '';
 
   constructor(private router: Router,
     private auth: AuthService,
-    private bdDomestiAppService: BdDomestiAppService) { }
+    private bdDomestiAppService: BdDomestiAppService,
+    private dbService: DbService
+  ) { }
 
   ngOnInit() {
+    this.info();
     this.getEmployee();
   }
 
@@ -27,7 +32,7 @@ export class OffertsComponent {
     this.bdDomestiAppService.getEmployees().subscribe(data => {
       // Get only the employees with the rol of "Empleador"
       this.offers = data.filter((employee) => {
-        return employee.rol === "Empleador";
+        return employee.rol === "Empleador" && employee.id !== this.id;
       });
     })
   }
@@ -79,11 +84,20 @@ export class OffertsComponent {
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.auth.isLogged()) {
-          swalWithBootstrapButtons.fire(
-            'Your request has been sent',
-            'We will contact you soon',
-            'success'
-          )
+          if (offer.rol === this.rol) {
+            swalWithBootstrapButtons.fire(
+              'You can not request a service',
+              'You can not request a service to an employee with the same rol as you.',
+              'warning'
+            )
+          } else {
+            swalWithBootstrapButtons.fire(
+              'Your request has been sent',
+              'We will contact you soon',
+              'success'
+            )
+            this.sentRequest(offer);
+          }
         } else {
           swalWithBootstrapButtons.fire(
             'You must be logged in',
@@ -96,5 +110,39 @@ export class OffertsComponent {
       ) {
       }
     })
+  }
+
+  info() {
+    this.auth.searchUser().subscribe(data => {
+      this.id = data[0].id!;
+      this.rol = data[0].rol;
+    });
+  }
+
+  sentRequest(offer: Empleado) {
+    const id = this.id;
+    const request: Requests = {
+      idApplicant: id,
+      idOffer: offer.id,
+      state: 'Pendiente',
+      date: this.transformDate(new Date()),
+      isAccepted: false
+    }
+    this.dbService.save(request, 'requests').then(() => {
+      console.log('Request sent');
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  transformDate(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    // UTC-5 because of the time zone of Colombia (Bogotá) 
+    const hour = date.getHours() - 5;
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;
   }
 }
