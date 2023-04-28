@@ -26,12 +26,10 @@ export class ProfilesComponent {
 
   getEmployee() {
     this.bdDomestiAppService.getEmployees().subscribe(data => {
-      this.bdDomestiAppService.getEmployees().subscribe(data => {
-        // Get only the employees with the rol of "Empleado"
-        this.profiles = data.filter((employee) => {
-          return employee.rol === "Empleado";
-        });
-      })
+      // Get only the employees with the rol of "Empleado"
+      this.profiles = data.filter((employee) => {
+        return employee.rol === "Empleado";
+      });
     })
   }
 

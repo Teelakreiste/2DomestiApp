@@ -1,9 +1,9 @@
 <div class="container cont">
     <div class="login-container">
         <div class="bg-white rounded-4 shadow-5-strong p-5 div-form">
-            <h2>REGISTER</h2>
+            <h2 class="title">{{title}}</h2>
             <hr id="separator">
-            <div class="row options">
+            <div [class]="(isEdit)?'none':'row options'">
                 <div class="col">
                     <input id="empleado" [value]="1" [(ngModel)]="sh" name="sh" type="radio" [checked]="isChecked" (click)="resetForm()">
                     <label for="empleado">Empleado</label>
@@ -264,10 +264,10 @@
                 </div>
                 <small class="text-muted">Fields marked with (*) are required.</small>
                 <br>
-                <input type="submit" class="btn btn-success" (click)="submit()" value="Sign Up">
+                <input type="submit" class="btn btn-success" (click)="submit()" [value]="btn">
             </div>
-            <hr id="separator">
-            <div class="div-register">
+            <hr id="separator" *ngIf="!isEdit">
+            <div class="div-register" *ngIf="!isEdit">
                 <p>Do you have an account?<a class="pr" (click)="login()"> Sign in here</a>.</p>
             </div>
         </div>

@@ -6,29 +6,45 @@
     transition: all 0.3s ease-in-out;
 }
 
+.bg-info {
+    background-color: #212121 !important;
+}
+
 .navbar-brand:hover {
     color: burlywood !important;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
 
-.nav-link {
+a {
+    color: #f5f5f5;
+    text-decoration: none;
+}
+
+.nav-link:focus,
+.nav-link:hover {
+    color: burlywood !important;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+    /* Move left */
+    transform: translateX(-50%);
+    /* Force the dropdown to be below the toggle */
+    top: 100%;
+    /* Bring the dropdown to front */
+    z-index: 1000;
+    /* Remove the shadow */
+    box-shadow: none;
+    /* Apply transition */
+    transition: all 0.5s ease-in-out;
+    /* It'd be a good idea to apply the same transition to the dropdown content itself */
+}
+
+.dropdown-item {
     color: #212121;
-    font-size: 1rem;
-    margin-right: 1rem;
-    background-color: burlywood;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
 
-.nav-link:focus, .nav-link:hover {
-    color: #212121 !important;
-    background-color: #f5f5f5 !important;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+@media screen and (max-width: 992px) {
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        transform: translateX(0%);
+    }
 }
-
-/* Path: src\app\Components\home\home.component.css */
