@@ -25,7 +25,14 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li *ngFor="let notification of notifications">
-                            <a class="dropdown-item" (click)="view(notification)">{{notification.date}}</a>
+                            <a class="dropdown-item" (click)="viewNotification(notification)">{{notification.date}}</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li *ngFor="let notificationA of notificationsA">
+                            <a class="dropdown-item"
+                                (click)="viewNotificationAccepted(notificationA)">{{notificationA.date}}</a>
                         </li>
                     </ul>
                 </li>
