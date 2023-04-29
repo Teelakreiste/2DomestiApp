@@ -122,12 +122,9 @@
                         <textarea class="form-control" [(ngModel)]="employeed.experience" placeholder="Leave a comment here"
                             id="floatingTextarea"></textarea>
                         <label for="floatingTextarea">*Work experience</label>
-                        <div class="alert-danger" *ngIf="!validates(5) || isEmpty(employeed.experience!)">
+                        <div class="alert-danger" *ngIf="isEmpty(employeed.experience!)">
                             <div class="container-error-message" *ngIf="isEmpty(employeed.experience!)">
                                 Work experience is required
-                            </div>
-                            <div class="container-error-message" *ngIf="!validates(5) && !isEmpty(employeed.experience!)">
-                                Work experience must contains only letters, spaces, commas, apostrophes and hyphens.
                             </div>
                         </div>
                     </div>

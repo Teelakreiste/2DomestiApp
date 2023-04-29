@@ -37,11 +37,6 @@ export class ValidationsService {
     return re.test(status) && !this.isEmpty(status);
   }
 
-  validateExperience(experience: string) {
-    const re = /^[a-zA-Z0-9\s,'-]*$/; // Is valid if the string contains only letters, numbers, spaces, commas, apostrophes and hyphens
-    return re.test(experience) && !this.isEmpty(experience);
-  }
-
   validateOthers(others: string) {
     const re = /^[a-zA-Z0-9\s,'-]*$/; // Is valid if the string contains only letters, numbers, spaces, commas, apostrophes and hyphens
     return re.test(others) && !this.isEmpty(others);
@@ -71,7 +66,7 @@ export class ValidationsService {
           this.validateCC(employeed.cc) &&
           !this.isEmpty(employeed.expDate) &&
           this.validateRol(employeed.rol) &&
-          this.validateExperience(employeed.experience) &&
+          !this.isEmpty(employeed.experience) &&
           !this.isEmpty(employeed.photo));
       } else if (employeed.rol == "Empleador") {
         return (this.validateName(employeed.name) &&

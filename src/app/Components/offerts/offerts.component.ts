@@ -32,7 +32,7 @@ export class OffertsComponent {
     this.bdDomestiAppService.getEmployees().subscribe(data => {
       // Get only the employees with the rol of "Empleador"
       this.offers = data.filter((employee) => {
-        return employee.rol === "Empleador" && employee.id !== this.id;
+        return employee.rol === "Empleador";
       });
     })
   }
@@ -113,10 +113,12 @@ export class OffertsComponent {
   }
 
   info() {
-    this.auth.searchUser().subscribe(data => {
-      this.id = data[0].id!;
-      this.rol = data[0].rol;
-    });
+    if (this.auth.isLogged()) {
+      this.auth.searchUser().subscribe(data => {
+        this.id = data[0].id!;
+        this.rol = data[0].rol;
+      });
+    }
   }
 
   sentRequest(offer: Empleado) {
@@ -139,8 +141,7 @@ export class OffertsComponent {
     const day = date.getDate();
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
-    // UTC-5 because of the time zone of Colombia (Bogotá) 
-    const hour = date.getHours() - 5;
+    const hour = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
     return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;

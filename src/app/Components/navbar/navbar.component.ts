@@ -34,6 +34,7 @@ export class NavbarComponent {
   private id: string = '';
 
   notifications: Requests[] = [];
+  notificationsA: Requests[] = [];
 
   constructor(private auth: AuthService,
     private router: Router,
@@ -52,6 +53,7 @@ export class NavbarComponent {
     this.isLogged = this.auth.isLogged();
     this.info();
     this.getNotification();
+    this.getNotificationAccepted();
   }
 
   signOut() {
@@ -62,10 +64,14 @@ export class NavbarComponent {
   }
 
   info() {
-    this.auth.searchUser().subscribe(data => {
-      this.name = data[0].name;
-      this.id = data[0].id!;
-    });
+    if (this.isLogged) {
+      this.auth.searchUser().subscribe(data => {
+        this.name = data[0].name;
+        this.id = data[0].id!;
+      });
+    } else {
+      this.name = '';
+    }
   }
 
   settingProfile() {
@@ -75,39 +81,24 @@ export class NavbarComponent {
   getNotification() {
     this.dbService.getAll('requests').subscribe(data => {
       this.notifications = data.filter((request) => {
-        return (request.idOffer === this.id && request.state === 'Pendiente' && request.isAccepted === false) || (request.idApplicant === this.id);
+        return (request.idOffer === this.id && request.state === 'Pendiente' && request.isAccepted === false);
       });
     })
   }
 
-  async getInfoRequest(request: Requests) {
-    this.dbService.search('id', request.idOffer!, 'employees').subscribe(data => {
-      this.infoRequest = data[0];
+  getNotificationAccepted() {
+    this.dbService.getAll('requests').subscribe(data => {
+      this.notificationsA = data.filter((request) => {
+        return (request.idApplicant === this.id && request.state === 'Aceptada' && request.isAccepted === false);
+      });
     })
-  }
-
-  async getInfoRequestO(request: Requests) {
-    this.dbService.search('id', request.idApplicant!, 'employees').subscribe(data => {
-      this.infoRequest = data[0];
-    })
-  }
-
-  view(request: Requests) {
-    console.log(this.id);
-    console.log(request.idApplicant);
-    console.log(request.idOffer);
-    if (this.id === request.idApplicant) {
-      this.viewNotificationO(request);
-    } 
-    if (this.id === request.idOffer) {
-      this.viewNotification(request);
-    }
   }
 
   viewNotification(request: Requests) {
-    this.getInfoRequest(request);
-    Swal.fire({
-      html: `
+    this.dbService.search('id', request.idApplicant!, 'employees').subscribe(data => {
+      this.infoRequest = data[0];
+      Swal.fire({
+        html: `
       <div class="row">
         <div class="col-6">
           <img src="${this.infoRequest.photo}" class="img-fluid" alt="Responsive image">
@@ -122,39 +113,47 @@ export class NavbarComponent {
         </div>
       </div>
       `,
-      title: '¿Desea aceptar la oferta?',
-      text: "No podrá revertir esta acción",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#716add',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        request.isAccepted = true;
-        request.state = 'Aceptada';
-        this.dbService.update(request.id!, request, 'requests').then(() => {
-          Swal.fire(
-            '¡Oferta aceptada!',
-            'La oferta ha sido aceptada',
-            'success'
-          )
-        }).catch((error) => {
-          Swal.fire(
-            '¡Error!',
-            'La oferta no ha podido ser aceptada',
-            'error'
-          )
-        })
-      }
+        title: '¿Desea aceptar la oferta?',
+        text: "No podrá revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#716add',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // request.isAccepted = true;
+          request.state = 'Aceptada';
+          this.infoRequest.status = 'Ocupado';
+          this.dbService.update(this.infoRequest.id!, this.infoRequest, 'employees').then(() => {
+            console.log('Empleado actualizado');
+          }).catch((error) => {
+            console.log('Error al actualizar empleado');
+          })
+          this.dbService.update(request.id!, request, 'requests').then(() => {
+            Swal.fire(
+              '¡Oferta aceptada!',
+              'La oferta ha sido aceptada',
+              'success'
+            )
+          }).catch((error) => {
+            Swal.fire(
+              '¡Error!',
+              'La oferta no ha podido ser aceptada',
+              'error'
+            )
+          })
+        }
+      })
     })
   }
 
-  viewNotificationO(request: Requests) {
-    this.getInfoRequestO(request);
-    Swal.fire({
-      html: `
+  viewNotificationAccepted(request: Requests) {
+    this.dbService.search('id', request.idOffer!, 'employees').subscribe(data => {
+      this.infoRequest = data[0];
+      Swal.fire({
+        html: `
       <div class="row">
         <div class="col-6">
           <img src="${this.infoRequest.photo}" class="img-fluid" alt="Responsive image">
@@ -169,32 +168,30 @@ export class NavbarComponent {
         </div>
       </div>
       `,
-      title: '¿Desea rechazar la oferta?',
-      text: "No podrá revertir esta acción",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#716add',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        request.isAccepted = false;
-        request.state = 'Rechazada';
-        this.dbService.update(request.id!, request, 'requests').then(() => {
-          Swal.fire(
-            '¡Oferta rechazada!',
-            'La oferta ha sido rechazada',
-            'success'
-          )
-        }).catch((error) => {
-          Swal.fire(
-            '¡Error!',
-            'La oferta no ha podido ser rechazada',
-            'error'
-          )
-        })
-      }
+        title: 'Esta oferta ha sido aceptada',
+        text: "El usuario ha aceptado tu oferta y se pondrá en contacto contigo pronto.",
+        icon: 'success',
+        confirmButtonColor: '#716add',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          request.isAccepted = true;
+          this.infoRequest.status = 'Ocupado';
+          this.dbService.update(this.infoRequest.id!, this.infoRequest, 'employees').then(() => {
+            console.log('Empleado actualizado');
+          }).catch((error) => {
+            console.log('Error al actualizar empleado');
+          })
+          this.dbService.update(request.id!, request, 'requests').then(() => {
+            Swal.fire(
+              '¡Oferta aceptada!',
+              'La oferta ha sido aceptada',
+              'success'
+            )
+          })
+        }
+      })
     })
   }
 
