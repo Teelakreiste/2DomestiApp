@@ -259,6 +259,13 @@
                     <label class="form-label" for="floatingInput"></label>
                     <input type="file" accept="image/*" class="form-control input-image" id="floatingInput" #fileUploader [(ngModel)]="employeed.photo" (change)="showPreview($event)">
                 </div>
+                <div *ngIf="isEdit">
+                    <label class="form-label" for="floatingInput">Status</label>
+                    <select class="form-select" aria-label="Default select example" id="floatingInput" [(ngModel)]="employeed.status">
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Libre">Libre</option>
+                    </select>
+                </div>
                 <small class="text-muted">Fields marked with (*) are required.</small>
                 <br>
                 <input type="submit" class="btn btn-success" (click)="submit()" [value]="btn">
