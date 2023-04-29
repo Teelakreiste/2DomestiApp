@@ -83,6 +83,7 @@ export class RegisterComponent {
 
   submit() {
     this.employeed.email = this.employeed.email.toLowerCase();
+    this.employeed.status = 'Libre';
     this.employeed.rol = ((this.sh == 1) ? 'Empleado' : 'Empleador');
     if (this.validations.validateAll(this.employeed)) {
       if (this.type) {
