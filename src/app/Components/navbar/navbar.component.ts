@@ -125,6 +125,13 @@ export class NavbarComponent {
         if (result.isConfirmed) {
           // request.isAccepted = true;
           request.state = 'Aceptada';
+          this.infoRequest.status = 'Ocupado';
+          this.dbService.update(this.infoRequest.id!, this.infoRequest, 'employees').then(() => {
+            console.log('Empleado actualizado');
+            this.updateData('Ocupado');
+          }).catch((error) => {
+            console.log('Error al actualizar empleado');
+          })
           this.dbService.update(request.id!, request, 'requests').then(() => {
             Swal.fire(
               '¡Oferta aceptada!',
@@ -139,6 +146,18 @@ export class NavbarComponent {
             )
           })
         }
+      })
+    })
+  }
+
+  updateData(disponibilidad: string) {
+    this.dbService.search('id', this.id!, 'employees').subscribe(data => {
+      this.infoRequest = data[0];
+      this.infoRequest.status = disponibilidad;
+      this.dbService.update(this.infoRequest.id!, this.infoRequest, 'employees').then(() => {
+        console.log('Empleado actualizado');
+      }).catch((error) => {
+        console.log('Error al actualizar empleado');
       })
     })
   }

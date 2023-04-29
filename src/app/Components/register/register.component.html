@@ -122,12 +122,9 @@
                         <textarea class="form-control" [(ngModel)]="employeed.experience" placeholder="Leave a comment here"
                             id="floatingTextarea"></textarea>
                         <label for="floatingTextarea">*Work experience</label>
-                        <div class="alert-danger" *ngIf="!validates(5) || isEmpty(employeed.experience!)">
+                        <div class="alert-danger" *ngIf="isEmpty(employeed.experience!)">
                             <div class="container-error-message" *ngIf="isEmpty(employeed.experience!)">
                                 Work experience is required
-                            </div>
-                            <div class="container-error-message" *ngIf="!validates(5) && !isEmpty(employeed.experience!)">
-                                Work experience must contains only letters, spaces, commas, apostrophes and hyphens.
                             </div>
                         </div>
                     </div>
@@ -261,6 +258,13 @@
                 <div class="form-floating">
                     <label class="form-label" for="floatingInput"></label>
                     <input type="file" accept="image/*" class="form-control input-image" id="floatingInput" #fileUploader [(ngModel)]="employeed.photo" (change)="showPreview($event)">
+                </div>
+                <div *ngIf="isEdit">
+                    <label class="form-label" for="floatingInput">Status</label>
+                    <select class="form-select" aria-label="Default select example" id="floatingInput" [(ngModel)]="employeed.status">
+                        <option value="Ocupado">Ocupado</option>
+                        <option value="Libre">Libre</option>
+                    </select>
                 </div>
                 <small class="text-muted">Fields marked with (*) are required.</small>
                 <br>

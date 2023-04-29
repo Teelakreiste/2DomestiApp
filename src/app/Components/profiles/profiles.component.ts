@@ -92,6 +92,12 @@ export class ProfilesComponent {
               'You can not request a service to an employee with the same rol as you.',
               'warning'
             )
+          } else if (profile.status === 'Ocupado') {
+            swalWithBootstrapButtons.fire(
+              'You can not request a service',
+              'You can not request a service to an employee who is busy.',
+              'warning'
+            )
           } else {
             swalWithBootstrapButtons.fire(
               'Request sent',
