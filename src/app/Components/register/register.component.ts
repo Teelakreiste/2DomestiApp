@@ -218,8 +218,6 @@ export class RegisterComponent {
         return this.validations.validatePhone(this.employeed.phone);
       case 4:
         return this.validations.validateCC(this.employeed.cc);
-      case 5:
-        return this.validations.validateExperience(this.employeed.experience!);
       default:
         return false;
     }
