@@ -119,16 +119,20 @@ export class RegisterComponent {
       const response = await this.bdDomestiAppService.saveEmployee(this.employeed);
       console.log(response);
       if (response) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Registro exitoso',
-          text: 'Bienvenido a DomestiApp',
-          showConfirmButton: false,
-          timer: 1500
+        this.employeed.id = response.id;
+        this.bdDomestiAppService.updateEmployee(this.employeed).then(() => {
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Registro exitoso',
+            text: 'Bienvenido a DomestiApp',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          this.auth.signOut();
+          this.router.navigate(['/sign-in']);
+          window.location.reload();
         })
-        this.auth.signOut();
-        this.router.navigate(['/sign-in']);
-        window.location.reload();
       }
     }).catch(() => {
       Swal.fire({
