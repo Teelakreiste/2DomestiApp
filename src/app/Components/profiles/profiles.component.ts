@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/Services/auth.service';
 import { Empleado } from 'src/app/Models/employee.model';
 import { BdDomestiAppService } from 'src/app/Services/bd-domesti-app.service';
+import { DbService } from 'src/app/Services/db.service';
+import { Requests } from 'src/app/Models/requests.model';
 
 import Swal from 'sweetalert2';
 
@@ -14,13 +16,16 @@ import Swal from 'sweetalert2';
 export class ProfilesComponent {
 
   profiles: Empleado[] = [];
-
+  private id: string = '';
+  private rol: string = '';
 
   constructor(private router: Router,
     private auth: AuthService,
+    private dbService: DbService,
     private bdDomestiAppService: BdDomestiAppService) { }
 
   ngOnInit() {
+    this.info();
     this.getEmployee();
   }
 
@@ -28,7 +33,7 @@ export class ProfilesComponent {
     this.bdDomestiAppService.getEmployees().subscribe(data => {
       // Get only the employees with the rol of "Empleado"
       this.profiles = data.filter((employee) => {
-        return employee.rol === "Empleado";
+        return employee.rol === "Empleado" && employee.id !== this.id;
       });
     })
   }
@@ -77,15 +82,24 @@ export class ProfilesComponent {
       color: '#716add',
       backdrop: `rgba(0,0,0,0.4)`,
       confirmButtonText: 'Request service',
-      reverseButtons: true
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.auth.isLogged()) {
-          swalWithBootstrapButtons.fire(
-            'Request sent',
-            'Your request has been sent, we will contact you soon.',
-            'success'
-          )
+          if (profile.rol === this.rol) {
+            swalWithBootstrapButtons.fire(
+              'You can not request a service',
+              'You can not request a service to an employee with the same rol as you.',
+              'warning'
+            )
+          } else {
+            swalWithBootstrapButtons.fire(
+              'Request sent',
+              'Your request has been sent, we will contact you soon.',
+              'success'
+            )
+            this.sentRequest(profile);
+          }
         } else {
           swalWithBootstrapButtons.fire(
             'You need to login',
@@ -100,4 +114,37 @@ export class ProfilesComponent {
     })
   }
 
+  info() {
+    this.auth.searchUser().subscribe(data => {
+      this.id = data[0].id!;
+      this.rol = data[0].rol;
+    });
+  }
+
+  sentRequest(offer: Empleado) {
+    const id = this.id;
+    const request: Requests = {
+      idApplicant: id,
+      idOffer: offer.id,
+      state: 'Pendiente',
+      date: this.transformDate(new Date()),
+      isAccepted: false
+    }
+    this.dbService.save(request, 'requests').then(() => {
+      console.log('Request sent');
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
+  transformDate(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    // UTC-5 because of the time zone of Colombia (Bogotá) 
+    const hour = date.getHours() - 5;
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+    return `${day}/${month}/${year} ${hour}:${minutes}:${seconds}`;
+  }
 }
